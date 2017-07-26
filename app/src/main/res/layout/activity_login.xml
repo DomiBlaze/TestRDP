@@ -9,36 +9,40 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context="com.example.atizik.testrdp.LoginActivity">
 
     <!-- Login progress -->
-
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_gravity="right"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@mipmap/logo" />
+
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:visibility="gone" />
 
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="30dp"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
@@ -49,7 +53,7 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
+                    android:hint="Логин"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -58,13 +62,15 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+
+                >
 
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
+                    android:hint="Пароль"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
@@ -84,7 +90,7 @@
                 android:background="@android:color/holo_green_light"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="@string/action_sign_in"
+                android:text="ВОЙТИ"
                 android:textStyle="bold" />
 
         </LinearLayout>

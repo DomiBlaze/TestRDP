@@ -7,40 +7,72 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.atizik.testrdp.WorkListActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nothing"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="64dp" />
+
+        <TextView
+            android:id="@+id/dateView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:layout_below="@+id/fioTV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:text=""
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/button_date"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignBaseline="@+id/dateView"
+            android:layout_alignBottom="@+id/dateView"
+            android:layout_below="@+id/dateView"
+            android:layout_centerHorizontal="true"
+            />
+
+
+        <TextView
+            android:id="@+id/fioTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="18dp"
+            android:text="TextView" />
+
+        <TableLayout
+            android:id="@+id/works"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_below="@+id/button_date"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="30dp"
+            android:elevation="1dp">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </TableLayout>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_work_list" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        <TextView
+            android:id="@+id/nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/works"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="На выбранную дату работ нет"
+            android:textSize="24sp" />
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
