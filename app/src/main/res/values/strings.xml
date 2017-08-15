@@ -104,8 +104,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
-    <string-array
-        name="reasons_part">
+    <string-array name="reasons_part">
         <item>Окончание возможного времени пребывания на объекте</item>
         <item>Отсутствие полной комплектации изделий</item>
         <item>Несоответствие габаритов рекламных изделий</item>

@@ -286,8 +286,8 @@ public class WorkActivity extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        EasyImage.openChooserWithGallery(activity, "Pick source", 0);
+                        startImagesActivity();
+                       // EasyImage.openChooserWithGallery(activity, "Pick source", 0);
                     }
                 });
 
@@ -545,5 +545,18 @@ public class WorkActivity extends AppCompatActivity {
 
 
         }
+    public void startImagesActivity() {
+        Intent intent = new Intent(this, ImagesActivity.class);
+        Bundle extras = new Bundle();
+
+        extras.putString("token",token);
+        extras.putString("id_m",id_m);
+        extras.putString("url",url);
+
+        intent.putExtras(extras);
+
+        startActivity(intent);
+
+    }
     }
 

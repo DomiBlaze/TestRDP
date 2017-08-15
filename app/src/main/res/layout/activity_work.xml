@@ -113,6 +113,15 @@
             android:paddingBottom="30dp"
             android:paddingTop="30dp">
 
+            <Button
+                android:id="@+id/uploadB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Загрузить"
+                android:layout_below="@+id/teamB"
+                android:layout_centerHorizontal="true" />
+
             <ProgressBar
                 android:id="@+id/progressBar1"
                 style="?android:attr/progressBarStyle"
@@ -209,15 +218,6 @@
                 android:visibility="invisible" />
 
         </RelativeLayout>
-
-        <Button
-            android:id="@+id/uploadB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/horizontalScrollView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="27dp"
-            android:text="Загрузить" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
