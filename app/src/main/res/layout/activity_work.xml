@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.atizik.testrdp.WorkActivity"
+>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_marginTop="30dp"
+            android:id="@+id/horizontalScrollView">
+
+            <LinearLayout
+                android:id="@+id/img_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <ImageView
+            android:id="@+id/phototest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="50dp"
+            app:srcCompat="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/dateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_alignBaseline="@+id/addrTV"
+            android:layout_alignBottom="@+id/addrTV"
+            android:layout_alignEnd="@+id/relativeLayout" />
+
+        <TextView
+            android:id="@+id/brandTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/fioTV"
+            android:layout_alignTop="@+id/addrTV"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="50dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/addrTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/fioTV"
+            android:layout_below="@+id/workTV"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="200dp"
+            android:layout_marginTop="13dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/fioTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="18dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/idTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/workTV"
+            android:layout_alignBottom="@+id/workTV"
+            android:layout_alignStart="@+id/phototest"
+            android:layout_margin="10dp"
+            android:text="TextView"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/workTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/phototest"
+            android:layout_below="@+id/fioTV"
+            android:layout_margin="10dp"
+            android:layout_toStartOf="@+id/idTV"
+            android:text="TextView"
+            android:textSize="22sp" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/brandTV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/darker_gray"
+            android:elevation="1dp"
+            android:paddingBottom="30dp"
+            android:paddingTop="30dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:layout_below="@+id/teamB"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/badB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/goodB"
+                android:layout_alignBottom="@+id/goodB"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:background="@android:color/holo_red_light"
+                android:padding="3dp"
+                android:text="Отменить"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/goodB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/teamB"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:background="@android:color/holo_green_light"
+                android:padding="3dp"
+                android:text="Выполнен"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/startSecondB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/teamB"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:background="@android:color/holo_green_light"
+                android:padding="3dp"
+                android:text="Приступить"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/contactsB"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+
+                android:layout_centerHorizontal="true"
+                android:text="Контакты" />
+
+            <Button
+                android:id="@+id/photosB"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/contactsB"
+                android:layout_below="@+id/contactsB"
+                android:layout_marginTop="15dp"
+                android:text="Фотоотчеты" />
+
+            <Button
+                android:id="@+id/teamB"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/selfB"
+                android:layout_below="@+id/selfB"
+                android:layout_marginTop="15dp"
+                android:text="Бригада" />
+
+            <Button
+                android:id="@+id/selfB"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/photosB"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp"
+                android:text="Селфиотчет" />
+
+            <Button
+                android:id="@+id/startB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/goodB"
+                android:layout_alignBottom="@+id/goodB"
+                android:layout_alignLeft="@+id/goodB"
+                android:layout_alignStart="@+id/goodB"
+
+                android:background="@android:color/holo_green_light"
+                android:padding="3dp"
+                android:text="Старт"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/uploadB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/horizontalScrollView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="27dp"
+            android:text="Загрузить" />
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="RDP Монтажные работы "
@@ -25,7 +26,8 @@
         <activity
             android:name=".WorkListActivity"
             android:label="@string/title_activity_work_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".WorkActivity"></activity>
     </application>
 
 </manifest>

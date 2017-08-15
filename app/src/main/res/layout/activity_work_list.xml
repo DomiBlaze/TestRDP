@@ -22,27 +22,13 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="64dp" />
 
-        <TextView
-            android:id="@+id/dateView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-
-            android:layout_below="@+id/fioTV"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:text=""
-            android:textColor="@android:color/black" />
-
         <Button
             android:id="@+id/button_date"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_alignBaseline="@+id/dateView"
-            android:layout_alignBottom="@+id/dateView"
-            android:layout_below="@+id/dateView"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginTop="150dp"
+            android:textColor="@android:color/black" />
 
 
         <TextView
@@ -73,6 +59,7 @@
             android:layout_centerVertical="true"
             android:text="На выбранную дату работ нет"
             android:textSize="24sp" />
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
