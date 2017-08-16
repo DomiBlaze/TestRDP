@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,25 +10,63 @@
     <GridLayout
         android:id="@+id/grid_images"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:columnCount="4"
+        android:layout_below="@+id/grid_uploaded_images"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/grid_uploaded_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:columnCount="4"
+        android:layout_below="@+id/zakaz_workTV"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
     </GridLayout>
 
     <Button
-        android:id="@+id/addB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:text="Добавить" />
-
-    <Button
         android:id="@+id/uploadB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|left"
+        android:layout_margin="25dp"
         android:text="Загрузить" />
-</android.support.design.widget.CoordinatorLayout>
+
+    <Button
+        android:id="@+id/addB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="25dp"
+        android:text="Добавить" />
+
+    <TextView
+        android:id="@+id/brandTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/uploadB"
+
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="15dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/zakaz_workTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/brandTV"
+        android:layout_alignEnd="@+id/addB"
+        android:layout_marginEnd="14dp"
+        android:text="TextView" />
+
+</RelativeLayout>

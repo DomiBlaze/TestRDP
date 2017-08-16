@@ -24,11 +24,15 @@
             </intent-filter>
         </activity>
         <activity
+
+
             android:name=".WorkListActivity"
             android:label="@string/title_activity_work_list"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity android:name=".WorkActivity" />
         <activity android:name=".ImagesActivity"></activity>
+
     </application>
 
 </manifest>

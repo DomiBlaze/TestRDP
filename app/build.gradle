@@ -30,6 +30,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.jkwiecien:EasyImage:2.0.2'
+    compile 'com.kbeanie:multipicker:1.1.31@aar'
     compile 'dev.dworks.libs:volleyplus:+'
     testCompile 'junit:junit:4.12'
 }

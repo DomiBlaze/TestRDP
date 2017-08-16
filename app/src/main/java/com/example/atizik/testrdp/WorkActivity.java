@@ -2,11 +2,13 @@ package com.example.atizik.testrdp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,8 +41,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -49,6 +54,13 @@ public class WorkActivity extends AppCompatActivity {
 
     public HashMap <ImageView, File> forUpload=new HashMap<ImageView, File>();
     public Uri number;
+    public Uri manager_number;
+    public Uri boss_number;
+    public Uri disp_number;
+
+    public String brand, zakaz_work;
+
+    public JSONArray img_urls;
     private Context mContext;
     public String token;
     public String orig_url_req;
@@ -59,6 +71,13 @@ public class WorkActivity extends AppCompatActivity {
     public Activity activity;
     public String id_m;
     private ProgressBar spinner;
+
+    public String client_name;
+    public String disp_name;
+    public String manager_name;
+    public String boss_name;
+
+
 
 
     @Override
@@ -142,6 +161,9 @@ public class WorkActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+
+                        LayoutInflater inflater = LayoutInflater.from(activity);
+                        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.custom_dialog_brig, null, false);
 
                         Cache.Entry entry = WorkListActivity.requestQueue.getCache().get(orig_url_req);
 
@@ -297,19 +319,72 @@ public class WorkActivity extends AppCompatActivity {
 
 
 
-        //EasyImage.openChooserWithGallery(this, "Выберите источник", 0);
 
+        //контакты
         ((Button) findViewById(R.id.contactsB))
         .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
-                startActivity(callIntent);
+                Dialog alertDialog = new Dialog(activity);
+                alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                alertDialog.setContentView(R.layout.custom_contacts_dialog);
+                Button managerB = (Button) alertDialog.findViewById(R.id.managerB);
+                Button clientB = (Button) alertDialog.findViewById(R.id.clientB);
+                Button bossB = (Button) alertDialog.findViewById(R.id.montBossB);
+                Button dispB = (Button) alertDialog.findViewById(R.id.dispB);
+                TextView managerTV = (TextView) alertDialog.findViewById(R.id.managerTV);
+                TextView clientTV = (TextView) alertDialog.findViewById(R.id.clientTV);
+                TextView bossTV = (TextView) alertDialog.findViewById(R.id.bossTV);
+                TextView dispTV = (TextView) alertDialog.findViewById(R.id.dispTV);
+
+                managerTV.setText(manager_name);
+                clientTV.setText(client_name);
+                bossTV.setText(boss_name);
+                dispTV.setText(disp_name);
+
+                bossB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL, boss_number);
+                        startActivity(callIntent);
+                    }
+                });
+
+
+                dispB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL, disp_number);
+                        startActivity(callIntent);
+                    }
+                });
+
+                managerB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL, manager_number);
+                        startActivity(callIntent);
+                    }
+                });
+
+                clientB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                        startActivity(callIntent);
+                    }
+                });
+
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+                alertDialog.show();
             }
         });
+        //контакты;
 
 
+        //фото
         ((Button) findViewById(R.id.photosB))
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -318,7 +393,7 @@ public class WorkActivity extends AppCompatActivity {
                        // EasyImage.openChooserWithGallery(activity, "Pick source", 0);
                     }
                 });
-
+        //фото;
 
 
 
@@ -328,6 +403,13 @@ public class WorkActivity extends AppCompatActivity {
 
     }
 
+
+    protected void onRestart() {
+// TODO Auto-generated method stub
+        super.onRestart();
+        sendNetworkRequest(orig_url_req, false);
+        //Do your code here
+    }
 
 
 
@@ -390,24 +472,21 @@ public class WorkActivity extends AppCompatActivity {
     public void populateBrig(final JSONObject response, View dialoglayout) throws JSONException {
 
 
-        JSONArray jsonArray = response.getJSONArray("brigade");
+        JSONObject object = response.getJSONObject("content");
+        JSONArray jsonArray = object.getJSONArray("brigade");
 
 
 
 
+
+        TableLayout tb = (TableLayout) dialoglayout.findViewById(R.id.brigade);
       //  LayoutInflater inflater = LayoutInflater.from(this);
      //   RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.works_table_row_layout, null, false);
 
       //  TextView idV = (TextView) layout.findViewById(R.id.idTV);
 
 
-        LayoutInflater inflater = LayoutInflater.from(this);
-        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.brigade_layout, null, false);
-
-        layout.findViewById(R.id.br)
-
-
-        ll.removeAllViews();
+        tb.removeAllViews();
         if (jsonArray.length() == 0) {
             //TextView nothing = (TextView) findViewById(R.id.nothing);
             //nothing.setVisibility(View.VISIBLE);
@@ -415,9 +494,9 @@ public class WorkActivity extends AppCompatActivity {
         else {
 
             for (int i = 0; i < jsonArray.length(); i++) {
-                String status, id, addr, brand, zakaz;
+                String id;
 
-                final JSONObject object = jsonArray.getJSONObject(i);
+                object = jsonArray.getJSONObject(i);
                 id = object.getString("id");
                 //zakaz = object.getString("zakaz");
                // addr = "Empty";//object.getString("addr");
@@ -428,34 +507,14 @@ public class WorkActivity extends AppCompatActivity {
 
 
                 LayoutInflater inflater = LayoutInflater.from(this);
-
-
+                RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.brigade_layout, null, false);
                 TextView fioTV = (TextView) layout.findViewById(R.id.fioTV);
-
-
-
-
                 fioTV.setText(id);
 
 
-                ll.addView(layout,i);
+                tb.addView(layout,i);
 
-             /*   TableRow row= new TableRow(this);
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                row.setLayoutParams(lp);
-                TextView nameV = new TextView(this);
-                TextView descV = new TextView(this);
-                TextView upvotesV = new TextView(this);
-                ImageView imgV = new ImageView(this);
-                row.addView(nameV);
-                row.addView(upvotesV);
-                ll.addView(row,j);
-                j++;
-                TableRow row_1= new TableRow(this);
-                row_1.setLayoutParams(lp);
-                row_1.addView(descV);
-                ll.addView(row_1,j);
-                j++;*/
+
 
             }
         }
@@ -475,9 +534,9 @@ public class WorkActivity extends AppCompatActivity {
 
                         uploadB.setEnabled(true);
                         spinner.setVisibility(View.GONE);
-                            // JSON error
 
-                        Toast.makeText(getApplicationContext(), "Успешно " + response, Toast.LENGTH_LONG).show();
+
+                        Toast.makeText(getApplicationContext(), "Успешно " + response, Toast.LENGTH_SHORT).show();
                         LinearLayout table_img = (LinearLayout) findViewById(R.id.img_table);
                         table_img.removeAllViews();
 
@@ -487,7 +546,7 @@ public class WorkActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 spinner.setVisibility(View.INVISIBLE);
                 uploadB.setEnabled(true);
 
@@ -524,8 +583,13 @@ public class WorkActivity extends AppCompatActivity {
                         Log.d("MyTag", "Response: " + response.toString());
                         try {
                             spinner.setVisibility(View.GONE);
-                            if(!send)
+                            if(!send) {
                                 populateData(response);
+                                String myFormat = "HH:mm:ss";
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+                                TextView lastUpdateTV = (TextView) findViewById(R.id.lastUpdateTV);
+                                lastUpdateTV.setText("Последнее обновление: " + sdf.format(System.currentTimeMillis()));
+                            }
                             else
                                 sendNetworkRequest(orig_url_req, false);
 
@@ -540,6 +604,12 @@ public class WorkActivity extends AppCompatActivity {
 
                 if (error instanceof NoConnectionError) {
                     Cache.Entry entry = WorkListActivity.requestQueue.getCache().get(url_req);
+
+                    String myFormat = "HH:mm:ss";
+                    SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+                    TextView lastUpdateTV = (TextView) findViewById(R.id.lastUpdateTV);
+                    lastUpdateTV.setText("Последнее обновление: " + sdf.format(entry.serverDate));
+
 
                     if (entry != null) {
 
@@ -558,7 +628,7 @@ public class WorkActivity extends AppCompatActivity {
 
                 }
 
-                Toast toast = Toast.makeText(getApplicationContext(), "Ошибка сети, попробуйте позже", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), "Ошибка сети, попробуйте позже", Toast.LENGTH_SHORT);
                 toast.show();
                 spinner.setVisibility(View.INVISIBLE);
             }
@@ -570,15 +640,10 @@ public class WorkActivity extends AppCompatActivity {
 
 
         JSONObject object = response.getJSONObject("content");
-
-
-
-
-
-
+        img_urls = object.getJSONArray("report");
 
            // for (int i = 0; i < jsonArray.length(); i++) {
-        String status, zakaz, date, brand, work, addr;
+        String status, zakaz, date, work, addr;
 
                 //JSONObject object = jsonArray.getJSONObject(i);
         addr = object.getString("addr");
@@ -587,7 +652,14 @@ public class WorkActivity extends AppCompatActivity {
         date = object.getString("date");
         brand = object.getString("brand");
         work = object.getString("work");
-        number = Uri.parse("tel:" + object.getString("clients_contact"));
+        number = Uri.parse("tel:" + object.getString("clients_phone"));
+        manager_number = Uri.parse("tel:" + object.getString("manager_phone"));
+        boss_number = Uri.parse("tel:" + object.getString("mont_phone"));
+        disp_number = Uri.parse("tel:" + object.getString("disp_phone"));
+        client_name = object.getString("clients_contact");
+        disp_name = object.getString("disp_contact");
+        manager_name = object.getString("manager");
+        boss_name = object.getString("mont_contact");
 
 
 
@@ -600,7 +672,8 @@ public class WorkActivity extends AppCompatActivity {
        // idTV.setText(zakaz);
         dateTV.setText(date);
         brandTV.setText(brand);
-        workTV.setText("S-" + zakaz + "/r-" + work);
+        zakaz_work = "S-" + zakaz + "/r-" + work;
+        workTV.setText(zakaz_work);
         addrTV.setText(addr);
 
         Button goodB = (Button) findViewById(R.id.goodB);
@@ -654,9 +727,21 @@ public class WorkActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ImagesActivity.class);
         Bundle extras = new Bundle();
 
+
+        String[] arr=new String[img_urls.length()];
+        for(int i=0; i<arr.length; i++) {
+            arr[i]="https://dev.rdpgroup.ru" + img_urls.optString(i);
+        }
+        extras.putStringArray("img_urls",arr);
+
+
         extras.putString("token",token);
         extras.putString("id_m",id_m);
         extras.putString("url",url);
+        extras.putString("url_work_request",orig_url_req);
+        extras.putString("zakaz_work",zakaz_work);
+        extras.putString("brand",brand);
+
 
         intent.putExtras(extras);
 

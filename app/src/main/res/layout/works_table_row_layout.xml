@@ -39,13 +39,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_below="@+id/status"
-        android:layout_margin="2dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:layout_toEndOf="@+id/addrTV"
-        android:layout_toRightOf="@+id/addrTV"
+        android:layout_alignBaseline="@+id/addrTV"
 
+        android:layout_below="@+id/status"
+
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_toEndOf="@+id/addrTV"
         android:text="TextView"
         android:textSize="12sp" />
 
@@ -54,10 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/status"
-        android:layout_margin="2dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
         android:text="TextView"
         android:textSize="12sp" />
 
@@ -68,8 +65,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/border"
-        android:padding="2dp"
-        android:textSize="40sp" />
+        android:padding="10dp"
+        android:textSize="45sp" />
 
     <ImageView
             android:id="@+id/imageArrow"

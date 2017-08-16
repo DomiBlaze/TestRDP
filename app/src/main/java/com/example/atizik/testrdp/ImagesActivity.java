@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -36,6 +36,7 @@ public class ImagesActivity extends AppCompatActivity {
     public String url;
     public String token;
     public String id_m;
+    public String url_work_request;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -43,11 +44,20 @@ public class ImagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_images);
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
+        String brand = (String) bd.get("brand");
+        String zakaz_work = (String) bd.get("zakaz_work");
+        TextView brandTV = (TextView) findViewById(R.id.brandTV);
+        brandTV.setText(brand);
+        TextView zakaz_workTV = (TextView) findViewById(R.id.zakaz_workTV);
+        brandTV.setText(zakaz_work);
         id_m = (String) bd.get("id_m");
         url = (String) bd.get("url");
         token = (String) bd.get("token");
+        url_work_request = (String) bd.get("url_work_request");
+        String[] img_urls = (String[]) bd.get("img_urls");
 
 
+        showUploaded(img_urls);
         ((Button) findViewById(R.id.addB))
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -100,6 +110,7 @@ public class ImagesActivity extends AppCompatActivity {
 
                     final ImageView imgV = new ImageView(activity);
                     Picasso.with(activity).load(imageF).resize(250,250).centerCrop().into(imgV);
+
                     forUpload.put(imgV,imageF);
                     imgV.setLayoutParams(imgViewParams);
                     imgV.setClickable(true);
@@ -125,6 +136,30 @@ public class ImagesActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void showUploaded(String[] urls) {
+        //Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView);
+
+        GridLayout table_img = (GridLayout) findViewById(R.id.grid_uploaded_images);
+        table_img.removeAllViewsInLayout();
+
+        LinearLayout.LayoutParams imgViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        imgViewParams.setMargins(10,10,10,10);
+
+
+        for (String imageF: urls){
+
+            final ImageView imgV = new ImageView(activity);
+            Picasso.with(activity).load(imageF).resize(250,250).centerCrop().into(imgV);
+            imgV.setLayoutParams(imgViewParams);
+            table_img.addView(imgV);
+
+        }
+
+
+    }
+
 
 
     private void imageUpload() {
@@ -172,6 +207,7 @@ public class ImagesActivity extends AppCompatActivity {
 
 
         MyApplication.getInstance().addToRequestQueue(smr);
+        forUpload.clear();
 
     }
 }

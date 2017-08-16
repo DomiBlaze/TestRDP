@@ -158,7 +158,7 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
                 final JSONObject object = jsonArray.getJSONObject(i);
                 id = object.getString("id");
                 zakaz = object.getString("zakaz");
-                addr = "Empty";//object.getString("addr");
+                addr = object.getString("addr");
                 brand = object.getString("brand");
                 status = object.getString("status");
 
@@ -297,7 +297,7 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
 
                 }
 
-                Toast toast = Toast.makeText(getApplicationContext(), "Ошибка сети, попробуйте позже", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), "Ошибка сети, попробуйте позже", Toast.LENGTH_SHORT);
                 toast.show();
                 spinner.setVisibility(View.INVISIBLE);
             }
