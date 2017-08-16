@@ -2,6 +2,12 @@ package com.example.atizik.testrdp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,14 +26,21 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.SimpleMultiPartRequest;
+import com.kbeanie.multipicker.api.Picker;
+import com.kbeanie.multipicker.api.VideoPicker;
+import com.kbeanie.multipicker.api.callbacks.VideoPickerCallback;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.kbeanie.multipicker.api.entity.ChosenVideo;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.util.HashMap;
 import java.util.List;
 
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
+
 
 public class ImagesActivity extends AppCompatActivity {
 
@@ -37,6 +50,7 @@ public class ImagesActivity extends AppCompatActivity {
     public String token;
     public String id_m;
     public String url_work_request;
+    public Uri video_uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -49,12 +63,19 @@ public class ImagesActivity extends AppCompatActivity {
         TextView brandTV = (TextView) findViewById(R.id.brandTV);
         brandTV.setText(brand);
         TextView zakaz_workTV = (TextView) findViewById(R.id.zakaz_workTV);
-        brandTV.setText(zakaz_work);
+        zakaz_workTV.setText(zakaz_work);
         id_m = (String) bd.get("id_m");
         url = (String) bd.get("url");
         token = (String) bd.get("token");
         url_work_request = (String) bd.get("url_work_request");
         String[] img_urls = (String[]) bd.get("img_urls");
+
+
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK );
+        photoPickerIntent.setType("video/*");
+        startActivityForResult(photoPickerIntent, 33451);
+
+
 
 
         showUploaded(img_urls);
@@ -84,58 +105,71 @@ public class ImagesActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
-            @Override
-            public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
-                //Some error handling
-                e.printStackTrace();
+        if(requestCode == 33451 && resultCode == Activity.RESULT_OK)
+            {
+
+                    video_uri = data.getData();
+
+
+
+
+
             }
+        else {
 
-            @Override
-            public void onImagesPicked(List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                //onPhotosReturned(imageFiles);
-                GridLayout table_img = (GridLayout) findViewById(R.id.grid_images);
-
-                table_img.removeAllViewsInLayout();
-
-
-
-                LinearLayout.LayoutParams imgViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                imgViewParams.setMargins(10,10,10,10);
-
-
-
-
-                for (File imageF: imageFiles){
-
-                    final ImageView imgV = new ImageView(activity);
-                    Picasso.with(activity).load(imageF).resize(250,250).centerCrop().into(imgV);
-
-                    forUpload.put(imgV,imageF);
-                    imgV.setLayoutParams(imgViewParams);
-                    imgV.setClickable(true);
-                    imgV.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            forUpload.remove(imgV);
-                            ((ViewGroup)imgV.getParent()).removeView(imgV);
-                        }
-                    });
-                    table_img.addView(imgV);
-
+            EasyImage.handleActivityResult(requestCode, resultCode, data, this, new DefaultCallback() {
+                @Override
+                public void onImagePickerError(Exception e, EasyImage.ImageSource source, int type) {
+                    //Some error handling
+                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onCanceled(EasyImage.ImageSource source, int type) {
-                //Cancel handling, you might wanna remove taken photo if it was canceled
-                if (source == EasyImage.ImageSource.CAMERA) {
-                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(ImagesActivity.this);
-                    if (photoFile != null) photoFile.delete();
+
+                @Override
+                public void onImagesPicked(List<File> imageFiles, EasyImage.ImageSource source, int type) {
+                    //onPhotosReturned(imageFiles);
+                    GridLayout table_img = (GridLayout) findViewById(R.id.grid_images);
+
+                    table_img.removeAllViewsInLayout();
+
+
+                    LinearLayout.LayoutParams imgViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    imgViewParams.setMargins(10, 10, 10, 10);
+
+
+                    for (File imageF : imageFiles) {
+
+                        final ImageView imgV = new ImageView(activity);
+                        Picasso.with(activity).load(imageF).resize(250, 250).centerCrop().into(imgV);
+
+                        forUpload.put(imgV, imageF);
+                        imgV.setLayoutParams(imgViewParams);
+                        imgV.setClickable(true);
+                        imgV.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                forUpload.remove(imgV);
+                                ((ViewGroup) imgV.getParent()).removeView(imgV);
+                            }
+                        });
+                        table_img.addView(imgV);
+
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onCanceled(EasyImage.ImageSource source, int type) {
+                    //Cancel handling, you might wanna remove taken photo if it was canceled
+                    if (source == EasyImage.ImageSource.CAMERA) {
+                        File photoFile = EasyImage.lastlyTakenButCanceledPhoto(ImagesActivity.this);
+                        if (photoFile != null) photoFile.delete();
+                    }
+                }
+            });
+        }
     }
+
+
 
 
     private void showUploaded(String[] urls) {
@@ -157,6 +191,17 @@ public class ImagesActivity extends AppCompatActivity {
 
         }
 
+
+    }
+
+
+
+    private void videoUpload(){
+
+// videoPicker.allowMultiple(); // Default is false
+// videoPicker.shouldGenerateMetadata(false); // Default is true
+// videoPicker.shouldGeneratePreviewImages(false); // Default is true
+        //videoPicker.pickImage();
 
     }
 
@@ -204,6 +249,33 @@ public class ImagesActivity extends AppCompatActivity {
         for(File imageF: forUpload.values()) {
             smr.addFile("image_" + i++, imageF.getPath());
         }
+
+
+
+        if (video_uri!=null) {
+        String filePath = null;
+
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+        Cursor cursor = getApplicationContext().getContentResolver().query(video_uri,
+                filePathColumn, null, null, null);
+        if (cursor != null) {
+            try {
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+
+                filePath = cursor.getString(columnIndex);
+            } finally {
+                cursor.close();
+            }
+        }
+
+
+
+            smr.addFile("video_", filePath);
+        }
+        video_uri = null;
 
 
         MyApplication.getInstance().addToRequestQueue(smr);
