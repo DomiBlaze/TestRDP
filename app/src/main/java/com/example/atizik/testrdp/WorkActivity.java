@@ -2,36 +2,35 @@ package com.example.atizik.testrdp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ViewUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.android.volley.Cache;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.error.NoConnectionError;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.JsonObjectRequest;
 import com.android.volley.request.SimpleMultiPartRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -39,7 +38,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
 
@@ -136,6 +134,36 @@ public class WorkActivity extends AppCompatActivity {
             }
         });
         //Загрузка
+
+
+        //Бригада
+        ((Button) findViewById(R.id.teamB))
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        Cache.Entry entry = WorkListActivity.requestQueue.getCache().get(orig_url_req);
+
+                        if (entry != null) {
+
+                            try {
+                                JSONObject data = new JSONObject(new String(entry.data));
+                                populateBrig(data, layout);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        AlertDialog.Builder builder10 = new AlertDialog.Builder(activity);
+                        builder10.setView(layout);
+                        builder10.show();
+                    }
+                });
+
+        //Бригада
+
 
         //Причина частичного
         builder1.setTitle("Причина частичного выполнения")
@@ -359,6 +387,80 @@ public class WorkActivity extends AppCompatActivity {
     }
 
 
+    public void populateBrig(final JSONObject response, View dialoglayout) throws JSONException {
+
+
+        JSONArray jsonArray = response.getJSONArray("brigade");
+
+
+
+
+      //  LayoutInflater inflater = LayoutInflater.from(this);
+     //   RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.works_table_row_layout, null, false);
+
+      //  TextView idV = (TextView) layout.findViewById(R.id.idTV);
+
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.brigade_layout, null, false);
+
+        layout.findViewById(R.id.br)
+
+
+        ll.removeAllViews();
+        if (jsonArray.length() == 0) {
+            //TextView nothing = (TextView) findViewById(R.id.nothing);
+            //nothing.setVisibility(View.VISIBLE);
+        }
+        else {
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String status, id, addr, brand, zakaz;
+
+                final JSONObject object = jsonArray.getJSONObject(i);
+                id = object.getString("id");
+                //zakaz = object.getString("zakaz");
+               // addr = "Empty";//object.getString("addr");
+                //brand = object.getString("brand");
+                //status = object.getString("status");
+
+
+
+
+                LayoutInflater inflater = LayoutInflater.from(this);
+
+
+                TextView fioTV = (TextView) layout.findViewById(R.id.fioTV);
+
+
+
+
+                fioTV.setText(id);
+
+
+                ll.addView(layout,i);
+
+             /*   TableRow row= new TableRow(this);
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                row.setLayoutParams(lp);
+                TextView nameV = new TextView(this);
+                TextView descV = new TextView(this);
+                TextView upvotesV = new TextView(this);
+                ImageView imgV = new ImageView(this);
+                row.addView(nameV);
+                row.addView(upvotesV);
+                ll.addView(row,j);
+                j++;
+                TableRow row_1= new TableRow(this);
+                row_1.setLayoutParams(lp);
+                row_1.addView(descV);
+                ll.addView(row_1,j);
+                j++;*/
+
+            }
+        }
+    }
+
     private void imageUpload() {
 
         spinner.setVisibility(View.VISIBLE);
@@ -384,6 +486,7 @@ public class WorkActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                 spinner.setVisibility(View.INVISIBLE);
                 uploadB.setEnabled(true);
@@ -441,7 +544,8 @@ public class WorkActivity extends AppCompatActivity {
                     if (entry != null) {
 
                         try {
-                            JSONObject data = new JSONObject(String.valueOf(entry.data));
+                            JSONObject data = new JSONObject(new String(entry.data));
+                            populateData(data);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -459,6 +563,7 @@ public class WorkActivity extends AppCompatActivity {
                 spinner.setVisibility(View.INVISIBLE);
             }
         });
+        WorkListActivity.requestQueue.getCache().invalidate(url_req,true);
         WorkListActivity.requestQueue.add(jsonObjectRequest);
     }
     public void populateData(JSONObject response) throws JSONException {
@@ -486,16 +591,16 @@ public class WorkActivity extends AppCompatActivity {
 
 
 
-        TextView idTV = (TextView) findViewById(R.id.idTV);
+       // TextView idTV = (TextView) findViewById(R.id.idTV);
         TextView addrTV = (TextView) findViewById(R.id.addrTV);
         TextView dateTV = (TextView) findViewById(R.id.dateTV);
         TextView brandTV = (TextView) findViewById(R.id.brandTV);
         TextView workTV = (TextView) findViewById(R.id.workTV);
 
-        idTV.setText(zakaz);
+       // idTV.setText(zakaz);
         dateTV.setText(date);
         brandTV.setText(brand);
-        workTV.setText(work);
+        workTV.setText("S-" + zakaz + "/r-" + work);
         addrTV.setText(addr);
 
         Button goodB = (Button) findViewById(R.id.goodB);

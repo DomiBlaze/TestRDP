@@ -14,9 +14,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+
+//import com.android.volley.VolleyError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.error.VolleyError;
 import com.android.volley.request.SimpleMultiPartRequest;
 import com.squareup.picasso.Picasso;
 
@@ -41,7 +43,7 @@ public class ImagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_images);
         Intent intent = getIntent();
         Bundle bd = intent.getExtras();
-        id_m = (String) bd.get("id");
+        id_m = (String) bd.get("id_m");
         url = (String) bd.get("url");
         token = (String) bd.get("token");
 
@@ -54,6 +56,17 @@ public class ImagesActivity extends AppCompatActivity {
                         EasyImage.openChooserWithGallery(activity, "Pick source", 0);
                     }
                 });
+
+        ((Button) findViewById(R.id.uploadB))
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        imageUpload();
+
+                    }
+                });
+
 
     }
 
@@ -118,7 +131,11 @@ public class ImagesActivity extends AppCompatActivity {
 
        // spinner.setVisibility(View.VISIBLE);
         final Button addB = (Button) findViewById(R.id.addB);
+        final Button uploadB = (Button) findViewById(R.id.uploadB);
         addB.setEnabled(false);
+        uploadB.setEnabled(false);
+
+        Log.d("ID:", id_m);
         SimpleMultiPartRequest smr = new SimpleMultiPartRequest(Request.Method.POST,
                 url + "report" + "?token=" + token + "&id=" + id_m,
                 new Response.Listener<String>() {
@@ -127,21 +144,23 @@ public class ImagesActivity extends AppCompatActivity {
                         Log.d("Response", response);
 
                         addB.setEnabled(true);
+                        uploadB.setEnabled(true);
                        // spinner.setVisibility(View.GONE);
                         // JSON error
 
-                        Toast.makeText(getApplicationContext(), "Успешно " + response, Toast.LENGTH_LONG).show();
-                        LinearLayout table_img = (LinearLayout) findViewById(R.id.img_table);
-                        table_img.removeAllViews();
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        GridLayout table_img = (GridLayout) findViewById(R.id.grid_images);
+                        table_img.removeAllViewsInLayout();
 
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                // spinner.setVisibility(View.INVISIBLE);
                 addB.setEnabled(true);
+                uploadB.setEnabled(true);
 
             }
         });
@@ -150,6 +169,7 @@ public class ImagesActivity extends AppCompatActivity {
         for(File imageF: forUpload.values()) {
             smr.addFile("image_" + i++, imageF.getPath());
         }
+
 
         MyApplication.getInstance().addToRequestQueue(smr);
 

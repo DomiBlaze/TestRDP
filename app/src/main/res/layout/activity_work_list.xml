@@ -60,6 +60,13 @@
             android:text="На выбранную дату работ нет"
             android:textSize="24sp" />
 
+        <TextView
+            android:id="@+id/lastUpdateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/fioTV"
+            android:layout_alignEnd="@+id/works" />
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

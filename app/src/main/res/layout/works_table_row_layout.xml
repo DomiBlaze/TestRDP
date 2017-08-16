@@ -35,19 +35,31 @@
 
     <TextView
 
-        android:id="@+id/addrTV"
+        android:id="@+id/brandTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:layout_below="@+id/status"
         android:layout_margin="2dp"
         android:layout_marginLeft="17dp"
         android:layout_marginStart="17dp"
-        android:layout_below="@+id/status"
-        android:layout_toEndOf="@+id/brandTV"
-        android:layout_toRightOf="@+id/brandTV"
+        android:layout_toEndOf="@+id/addrTV"
+        android:layout_toRightOf="@+id/addrTV"
 
         android:text="TextView"
-        android:textSize="18sp" />
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/addrTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status"
+        android:layout_margin="2dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="10dp"
+        android:text="TextView"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/background"
@@ -59,7 +71,7 @@
         android:padding="2dp"
         android:textSize="40sp" />
 
-        <ImageView
+    <ImageView
             android:id="@+id/imageArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,17 +80,6 @@
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/status"
             app:srcCompat="@android:drawable/ic_media_play" />
-
-    <TextView
-        android:id="@+id/brandTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/status"
-        android:text="TextView"
-        android:layout_margin="2dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginStart="17dp"
-        android:textSize="18sp" />
 
 
 </RelativeLayout>

@@ -9,34 +9,37 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.android.volley.Cache;
-import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
+import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.error.NoConnectionError;
+import com.android.volley.error.VolleyError;
+import com.android.volley.request.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class WorkListActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     public HashMap<String, String> statusMap=new HashMap<String, String>();
@@ -90,6 +93,7 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
 
         token = (String) bd.get("token");
 
+        requestQueue = Volley.newRequestQueue(mContext);
         //  Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
       //  setSupportActionBar(toolbar);
         TextView fio =(TextView) findViewById(R.id.fioTV);
@@ -105,8 +109,9 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, WorkListActivity.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         DatePicker datePicker = datePickerDialog.getDatePicker();
+
         datePicker.setMinDate(calendar.getTimeInMillis() - 1000*60*60*24);
-        datePicker.setMaxDate(calendar.getTimeInMillis() + (2*1000*60*60*24));
+        datePicker.setMaxDate(calendar.getTimeInMillis() + (1000*60*60*24)+10000);
         sendNetworkRequest(UrlForRequest("list","",sdf.format(calendar.getTime())),true);
 
 
@@ -165,8 +170,8 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
 
                 TextView idV = (TextView) layout.findViewById(R.id.idTV);
                 TextView statusV = (TextView) layout.findViewById(R.id.status);
-                TextView brandV = (TextView) layout.findViewById(R.id.brandTV);
-                TextView addrV = (TextView) layout.findViewById(R.id.addrTV);
+                TextView brandV = (TextView) layout.findViewById(R.id.addrTV);
+                TextView addrV = (TextView) layout.findViewById(R.id.brandTV);
 
                 TextView background = ((TextView) layout.findViewById(R.id.background));
                 background.setClickable(true);
@@ -238,19 +243,26 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
 
         TextView nothing = (TextView) findViewById(R.id.nothing);
         nothing.setVisibility(View.INVISIBLE);
-        requestQueue = Volley.newRequestQueue(mContext);
+
+
 
         spinner.setVisibility(View.VISIBLE);
         // mSwipeRefreshLayout.setRefreshing(true);
 
+        JSONObject test = null;
+
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET,
                 url_req,
-                null,
+                test,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("MyTag", "Response: " + response.toString());
+                        Log.d("MyTag", "Token:" + token + "Response: " + response.toString());
+                        String myFormat = "HH:mm:ss";
+                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
+                        TextView lastUpdateTV = (TextView) findViewById(R.id.lastUpdateTV);
+                        lastUpdateTV.setText("Последнее обновление: " + sdf.format(System.currentTimeMillis()));
+
                         try {
                             spinner.setVisibility(View.GONE);
                             if (popul)
@@ -267,10 +279,11 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
                 if (error instanceof NoConnectionError) {
                     Cache.Entry entry = requestQueue.getCache().get(url_req);
 
+
                     if(entry!=null){
 
                             try {
-                                JSONObject data = new JSONObject(String.valueOf(entry.data));
+                                JSONObject data = new JSONObject(new String(entry.data));
                                 if (popul)
                                     populateTable(data);
                             } catch (JSONException e) {
@@ -293,6 +306,7 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
 
 
 
+        requestQueue.getCache().invalidate(url_req,true);
         requestQueue.add(jsonObjectRequest);
     }
     @Override
@@ -300,7 +314,7 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String myFormat = "dd.MM.yyyy"; //In which you need put here
+        String myFormat = "dd.MM.yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ENGLISH);
         Button dateV = (Button) findViewById(R.id.button_date);
         dateV.setText(sdf.format(calendar.getTime()));
