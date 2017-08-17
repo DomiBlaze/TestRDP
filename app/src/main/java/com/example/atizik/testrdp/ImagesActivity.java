@@ -51,6 +51,7 @@ public class ImagesActivity extends AppCompatActivity {
     public String id_m;
     public String url_work_request;
     public Uri video_uri;
+    public String report;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -67,16 +68,27 @@ public class ImagesActivity extends AppCompatActivity {
         id_m = (String) bd.get("id_m");
         url = (String) bd.get("url");
         token = (String) bd.get("token");
+        report = (String) bd.get("report_type");
         url_work_request = (String) bd.get("url_work_request");
         String[] img_urls = (String[]) bd.get("img_urls");
 
 
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK );
-        photoPickerIntent.setType("video/*");
-        startActivityForResult(photoPickerIntent, 33451);
 
 
 
+
+
+        ((Button) findViewById(R.id.videoB))
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK );
+                        photoPickerIntent.setType("video/*");
+                        startActivityForResult(photoPickerIntent, 33451);
+
+                    }
+                });
 
         showUploaded(img_urls);
         ((Button) findViewById(R.id.addB))
@@ -212,12 +224,15 @@ public class ImagesActivity extends AppCompatActivity {
        // spinner.setVisibility(View.VISIBLE);
         final Button addB = (Button) findViewById(R.id.addB);
         final Button uploadB = (Button) findViewById(R.id.uploadB);
+        final Button videoB = (Button) findViewById(R.id.videoB);
         addB.setEnabled(false);
         uploadB.setEnabled(false);
+        videoB.setEnabled(false);
+
 
         Log.d("ID:", id_m);
         SimpleMultiPartRequest smr = new SimpleMultiPartRequest(Request.Method.POST,
-                url + "report" + "?token=" + token + "&id=" + id_m,
+                url + report + "?token=" + token + "&id=" + id_m,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -225,6 +240,7 @@ public class ImagesActivity extends AppCompatActivity {
 
                         addB.setEnabled(true);
                         uploadB.setEnabled(true);
+                        videoB.setEnabled(true);
                        // spinner.setVisibility(View.GONE);
                         // JSON error
 
@@ -241,6 +257,7 @@ public class ImagesActivity extends AppCompatActivity {
                // spinner.setVisibility(View.INVISIBLE);
                 addB.setEnabled(true);
                 uploadB.setEnabled(true);
+                videoB.setEnabled(true);
 
             }
         });

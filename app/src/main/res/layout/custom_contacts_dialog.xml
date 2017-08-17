@@ -8,10 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
         android:text="TextView"
-        android:textColor="@color/solid_black" />
+        android:textColor="#3e3f43"
+        android:textSize="10sp" />
 
     <Button
+        android:background="@android:drawable/btn_default"
+        android:textColor="@android:color/black"
         android:id="@+id/dispB"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
@@ -29,10 +33,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:text="TextView"
-        android:textColor="@color/solid_black" />
+        android:textColor="#3e3f43"
+        android:textSize="10sp" />
 
     <Button
         android:id="@+id/montBossB"
+        android:background="@android:drawable/btn_default"
+        android:textColor="@android:color/black"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -49,10 +56,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:text="TextView"
-        android:textColor="@color/solid_black" />
+        android:textColor="#3e3f43"
+        android:textSize="10sp" />
 
     <Button
         android:id="@+id/managerB"
+        android:background="@android:drawable/btn_default"
+        android:textColor="@android:color/black"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -69,10 +79,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:text="TextView"
-        android:textColor="@color/solid_black" />
+        android:textColor="#3e3f43"
+        android:textSize="10sp" />
 
     <Button
         android:id="@+id/clientB"
+        android:background="@android:drawable/btn_default"
+        android:textColor="@android:color/black"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"

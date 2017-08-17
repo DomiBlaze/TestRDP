@@ -57,6 +57,7 @@ public class WorkActivity extends AppCompatActivity {
     public Uri manager_number;
     public Uri boss_number;
     public Uri disp_number;
+    public String geo;
 
     public String brand, zakaz_work;
 
@@ -99,6 +100,7 @@ public class WorkActivity extends AppCompatActivity {
 
 
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.VISIBLE);
         statusMap.put("1","Запланировано");
         statusMap.put("2","Выполнено");
         statusMap.put("3","Частично");
@@ -133,15 +135,27 @@ public class WorkActivity extends AppCompatActivity {
         final String[] reasons_bad_before = res.getStringArray(R.array.reasons_bad_before);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        final AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-        final AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this,R.style.MyAlertDialogStyle);
+        final AlertDialog.Builder builder2 = new AlertDialog.Builder(this,R.style.MyAlertDialogStyle);
+        final AlertDialog.Builder builder3 = new AlertDialog.Builder(this,R.style.MyAlertDialogStyle);
         final AlertDialog.Builder builder4 = new AlertDialog.Builder(this);
 
-        //контакты
-      //  builder4.setTitle("Контакты")
-      //          .setItems()
-        //контакты;
+        //карты
+
+        TextView addrTV = (TextView) findViewById(R.id.addrTV);
+        addrTV.setClickable(true);
+        addrTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("geo:"+geo);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                if (mapIntent.resolveActivity(getPackageManager()) != null)
+                    startActivity(mapIntent);
+            }
+        });
+
+
+        //карты;
 
 
         //Загрузка
@@ -389,14 +403,34 @@ public class WorkActivity extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startImagesActivity();
+                        startImagesActivity("report");
                        // EasyImage.openChooserWithGallery(activity, "Pick source", 0);
                     }
                 });
         //фото;
 
 
+        //селфи
+        ((Button) findViewById(R.id.selfB))
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startImagesActivity("report_selfi");
 
+                    }
+                });
+        //селфи;
+
+        //фото авто
+        ((Button) findViewById(R.id.photoAutoB))
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startImagesActivity("report_auto");
+
+                    }
+                });
+        //фото авто;
 
         sendNetworkRequest(orig_url_req, false);
 
@@ -646,6 +680,7 @@ public class WorkActivity extends AppCompatActivity {
         String status, zakaz, date, work, addr;
 
                 //JSONObject object = jsonArray.getJSONObject(i);
+        geo = object.getString("geo_coords");
         addr = object.getString("addr");
         zakaz = object.getString("zakaz");
         status = object.getString("status");
@@ -682,16 +717,18 @@ public class WorkActivity extends AppCompatActivity {
         Button startSecondB = (Button) findViewById(R.id.startSecondB);
         Button photosB = (Button) findViewById(R.id.photosB);
         Button selfB = (Button) findViewById(R.id.selfB);
-
+        Button photoAutoB = (Button) findViewById(R.id.photoAutoB);
 
         if (status == "1") {
             photosB.setEnabled(false);
             selfB.setEnabled(false);
+            photoAutoB.setEnabled(false);
 
         }
         else {
             photosB.setEnabled(true);
             selfB.setEnabled(true);
+            photoAutoB.setEnabled(true);
         }
 
         goodB.setVisibility(View.INVISIBLE);
@@ -723,7 +760,7 @@ public class WorkActivity extends AppCompatActivity {
 
 
         }
-    public void startImagesActivity() {
+    public void startImagesActivity(String report_type) {
         Intent intent = new Intent(this, ImagesActivity.class);
         Bundle extras = new Bundle();
 
@@ -734,7 +771,7 @@ public class WorkActivity extends AppCompatActivity {
         }
         extras.putStringArray("img_urls",arr);
 
-
+        extras.putString("report_type",report_type);
         extras.putString("token",token);
         extras.putString("id_m",id_m);
         extras.putString("url",url);

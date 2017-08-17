@@ -7,30 +7,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.atizik.testrdp.ImagesActivity">
 
-    <GridLayout
-        android:id="@+id/grid_images"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:columnCount="4"
-        android:layout_below="@+id/grid_uploaded_images"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-    </GridLayout>
-
-    <GridLayout
-        android:id="@+id/grid_uploaded_images"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:columnCount="4"
-        android:layout_below="@+id/zakaz_workTV"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-    </GridLayout>
-
     <Button
         android:id="@+id/uploadB"
         android:layout_width="wrap_content"
@@ -48,7 +24,7 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
         android:layout_margin="25dp"
-        android:text="Добавить" />
+        android:text="Фото" />
 
     <TextView
         android:id="@+id/brandTV"
@@ -56,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/uploadB"
 
-        android:layout_marginStart="13dp"
         android:layout_marginTop="15dp"
         android:text="TextView" />
 
@@ -68,5 +43,59 @@
         android:layout_alignEnd="@+id/addB"
         android:layout_marginEnd="14dp"
         android:text="TextView" />
+
+    <ScrollView
+        android:id="@+id/grid_images_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:layout_below="@+id/zakaz_workTV"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/border">
+
+        <GridLayout
+            android:id="@+id/grid_uploaded_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zakaz_workTV"
+            android:columnCount="4"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
+
+        </GridLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/grid_images_scroll_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/grid_images_scroll"
+        android:layout_marginBottom="90dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border">
+
+
+        <GridLayout
+            android:id="@+id/grid_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/grid_uploaded_images"
+
+            android:columnCount="4"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
+
+        </GridLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/videoB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/addB"
+        android:layout_centerHorizontal="true"
+        android:text="Видео" />
 
 </RelativeLayout>

@@ -8,9 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:dialogTheme">@style/MyDialogTheme</item>
         <item name="android:datePickerStyle">@style/MyDatePicker</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
+
 
     </style>
 
+
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons 
+        <item name="colorAccent">#FFC107</item>
+         Used for the title and text 
+        <item name="android:textColorPrimary">#FFFFFF</item>
+         Used for the background -
+        <item name="android:background">#4CAF50</item>-->
+        <item name="android:padding">5dp</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestRDP</string>
+    <string name="app_name">Монтаж</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

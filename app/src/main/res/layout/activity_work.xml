@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.atizik.testrdp.WorkActivity"
->
+
+    tools:context="com.example.atizik.testrdp.WorkActivity">
 
 
     <RelativeLayout
@@ -42,24 +42,23 @@
             android:id="@+id/dateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp"
-            android:layout_alignBaseline="@+id/brandTV"
-            android:layout_alignBottom="@+id/brandTV"
-            android:layout_alignEnd="@+id/relativeLayout" />
+            android:layout_alignStart="@+id/fioTV"
+            android:layout_below="@+id/brandTV"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/addrTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/fioTV"
-            android:layout_alignTop="@+id/brandTV"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="50dp"
+            android:layout_below="@+id/dateTV"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="?attr/colorAccent"
             android:text="TextView"
-            android:layout_alignEnd="@+id/relativeLayout"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/brandTV"
@@ -67,29 +66,31 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/fioTV"
             android:layout_below="@+id/workTV"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginRight="200dp"
-            android:layout_marginTop="12dp"
-            android:text="TextView" />
+            android:layout_marginTop="20dp"
+            android:text="TextView"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/fioTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="18dp"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/workTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="22sp"
+            android:layout_below="@+id/fioTV"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/fioTV"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginTop="35dp"
+            android:text="TextView"
+            android:textSize="22sp" />
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
@@ -97,8 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/addrTV"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
             android:layout_marginTop="12dp"
             android:background="@android:color/darker_gray"
             android:elevation="1dp"
@@ -121,7 +122,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/teamB"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp" />
 
             <Button
                 android:id="@+id/contactsB"
@@ -141,6 +143,15 @@
                 android:text="Фотоотчеты" />
 
             <Button
+                android:id="@+id/photoAutoB"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_alignStart="@+id/contactsB"
+                android:layout_below="@+id/photosB"
+                android:layout_marginTop="5dp"
+                android:text="Фото авто" />
+
+            <Button
                 android:id="@+id/teamB"
                 android:layout_width="300dp"
                 android:layout_height="60dp"
@@ -153,7 +164,7 @@
                 android:id="@+id/selfB"
                 android:layout_width="300dp"
                 android:layout_height="60dp"
-                android:layout_below="@+id/photosB"
+                android:layout_below="@+id/photoAutoB"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="5dp"
                 android:text="Селфиотчет" />
@@ -163,13 +174,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:background="@android:color/holo_green_light"
-                android:padding="3dp"
-                android:text="Приступить"
-                android:textSize="18sp"
-                android:visibility="invisible"
                 android:layout_alignStart="@+id/startB"
-                android:layout_alignTop="@+id/startB" />
+                android:layout_alignTop="@+id/startB"
+                android:background="@android:color/holo_green_light"
+                android:textAllCaps="false"
+                android:padding="8dp"
+                android:text="Приступить"
+                android:textSize="15sp"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/badB"
@@ -180,9 +192,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="30dp"
                 android:background="@android:color/holo_red_light"
-                android:padding="3dp"
+                android:textAllCaps="false"
+                android:padding="8dp"
                 android:text="Отменить"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:visibility="invisible" />
 
             <Button
@@ -191,11 +204,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/teamB"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:background="@android:color/holo_green_light"
-                android:padding="3dp"
+                android:textAllCaps="false"
+                android:padding="8dp"
                 android:text="Выполнен"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:visibility="invisible" />
 
             <Button
@@ -208,9 +222,10 @@
                 android:layout_alignStart="@+id/goodB"
 
                 android:background="@android:color/holo_green_light"
-                android:padding="3dp"
+                android:textAllCaps="false"
+                android:padding="8dp"
                 android:text="Старт"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:visibility="invisible" />
 
         </RelativeLayout>
@@ -219,9 +234,10 @@
             android:id="@+id/lastUpdateTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/fioTV"
+            android:layout_alignTop="@+id/fioTV"
             android:layout_alignEnd="@+id/relativeLayout"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="10sp" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
