@@ -118,6 +118,13 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
         datePicker.setMaxDate(maxDate.getTimeInMillis() + (1000*60*60*24));
         sendNetworkRequest(UrlForRequest("list","",sdf.format(calendar.getTime())),true);
 
+        ((Button) findViewById(R.id.logoutB))
+                .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         ((Button) findViewById(R.id.button_date))
                 .setOnClickListener(new View.OnClickListener() {

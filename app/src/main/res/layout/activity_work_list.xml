@@ -67,6 +67,15 @@
             android:layout_alignBottom="@+id/fioTV"
             android:layout_alignEnd="@+id/works" />
 
+        <Button
+            android:id="@+id/logoutB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/lastUpdateTV"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="17dp"
+            android:text="Выход" />
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

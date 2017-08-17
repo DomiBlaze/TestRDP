@@ -81,13 +81,39 @@ public class ImagesActivity extends AppCompatActivity {
 
 
 
+
         ((Button) findViewById(R.id.videoB))
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
+
+
+                        VideoPicker videoPicker = new VideoPicker(activity);
+                        videoPicker.setVideoPickerCallback(new VideoPickerCallback(){
+                                                               @Override
+                                                               public void onVideosChosen(List<ChosenVideo> videos ) {
+                                                                   // Display images
+                                                               }
+
+                                                               @Override
+                                                               public void onError(String message) {
+                                                                   // Do error handling
+                                                               }
+                                                           }
+                        );
+
+                        //videoPicker.pickVideo();
+
+
+
+
+
+
                         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK );
                         photoPickerIntent.setType("video/*");
+                        //startActivity(Intent.createChooser(photoPickerIntent,"Видео"));
+
                         startActivityForResult(photoPickerIntent, 33451);
 
                     }
@@ -103,6 +129,8 @@ public class ImagesActivity extends AppCompatActivity {
                     }
                 });
 
+        ((Button) findViewById(R.id.uploadB))
+                .setEnabled(false);
         ((Button) findViewById(R.id.uploadB))
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -120,11 +148,21 @@ public class ImagesActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+      //  if(resultCode == 33452) {
+      //      if(requestCode == Picker.PICK_IMAGE_DEVICE) {
+      //          if(videoPicker == null) {
+       //             videoPicker = new VideoPicker(activity);
+       //             videoPicker.setVideoPickerCallback(videoPickerCallback);
+       //         }
+       //         videoPicker.submit(data);
+        //    }
+       // }
+
         if(requestCode == 33451 && resultCode == Activity.RESULT_OK)
             {
 
                     video_uri = data.getData();
-
+                    ((Button) findViewById(R.id.uploadB)).setEnabled(true);
 
 
 
@@ -154,6 +192,7 @@ public class ImagesActivity extends AppCompatActivity {
 
                     for (File imageF : imageFiles) {
 
+                        ((Button) findViewById(R.id.uploadB)).setEnabled(true);
                         final ImageView imgV = new ImageView(activity);
 
                         File compressedImageFile = null;
@@ -172,6 +211,8 @@ public class ImagesActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 forUpload.remove(imgV);
                                 ((ViewGroup) imgV.getParent()).removeView(imgV);
+                                if(forUpload.isEmpty() && video_uri == null)
+                                    ((Button) findViewById(R.id.uploadB)).setEnabled(false);
                             }
                         });
                         table_img.addView(imgV);
@@ -221,10 +262,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     private void videoUpload(){
 
-// videoPicker.allowMultiple(); // Default is false
-// videoPicker.shouldGenerateMetadata(false); // Default is true
-// videoPicker.shouldGeneratePreviewImages(false); // Default is true
-        //videoPicker.pickImage();
+
 
     }
 
@@ -255,7 +293,7 @@ public class ImagesActivity extends AppCompatActivity {
                        // spinner.setVisibility(View.GONE);
                         // JSON error
 
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Файлы загружены", Toast.LENGTH_LONG).show();
                         GridLayout table_img = (GridLayout) findViewById(R.id.grid_images);
                         table_img.removeAllViewsInLayout();
 
@@ -309,9 +347,11 @@ public class ImagesActivity extends AppCompatActivity {
         }
         video_uri = null;
 
-        //smr.setRetryPolicy(new DefaultRetryPolicy(5000,5,2));
+        //+
+        // smr.setRetryPolicy(new DefaultRetryPolicy(5000,5,2));
         MyApplication.getInstance().addToRequestQueue(smr);
         forUpload.clear();
+        ((Button) findViewById(R.id.uploadB)).setEnabled(false);
 
     }
 }
