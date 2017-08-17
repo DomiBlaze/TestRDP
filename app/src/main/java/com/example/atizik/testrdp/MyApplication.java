@@ -8,9 +8,7 @@ package com.example.atizik.testrdp;
         import com.android.volley.RequestQueue;
         import com.android.volley.toolbox.Volley;
 
-/**
- * Created by Snow on 6/1/2016.
- */
+
 
 public class MyApplication extends Application {
     public static final String TAG = MyApplication.class.getSimpleName();

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 
 //import com.android.volley.VolleyError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
@@ -35,9 +36,11 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import id.zelory.compressor.Compressor;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 
@@ -152,9 +155,16 @@ public class ImagesActivity extends AppCompatActivity {
                     for (File imageF : imageFiles) {
 
                         final ImageView imgV = new ImageView(activity);
-                        Picasso.with(activity).load(imageF).resize(250, 250).centerCrop().into(imgV);
 
-                        forUpload.put(imgV, imageF);
+                        File compressedImageFile = null;
+                        try {
+                            compressedImageFile = new Compressor(activity).compressToFile(imageF);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Picasso.with(activity).load(compressedImageFile).resize(250, 250).centerCrop().into(imgV);
+
+                        forUpload.put(imgV, compressedImageFile);
                         imgV.setLayoutParams(imgViewParams);
                         imgV.setClickable(true);
                         imgV.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +208,7 @@ public class ImagesActivity extends AppCompatActivity {
 
             final ImageView imgV = new ImageView(activity);
             Picasso.with(activity).load(imageF).resize(250,250).centerCrop().into(imgV);
+
             imgV.setLayoutParams(imgViewParams);
             table_img.addView(imgV);
 
@@ -253,7 +264,7 @@ public class ImagesActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               // Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Ошибка сети, попробуйте позже", Toast.LENGTH_LONG).show();
                // spinner.setVisibility(View.INVISIBLE);
                 addB.setEnabled(true);
                 uploadB.setEnabled(true);
@@ -265,6 +276,7 @@ public class ImagesActivity extends AppCompatActivity {
         int i=0;
         for(File imageF: forUpload.values()) {
             smr.addFile("image_" + i++, imageF.getPath());
+
         }
 
 
@@ -289,12 +301,15 @@ public class ImagesActivity extends AppCompatActivity {
         }
 
 
-
-            smr.addFile("video_", filePath);
+            File file = new File(filePath);
+            if (file.length()<15*1024*1024)
+                smr.addFile("video_", filePath);
+            else
+                Toast.makeText(getApplicationContext(), "Слишком большой видеофайл размером " + file.length()/1024/1024 + "мб, максимальный размер 15мб", Toast.LENGTH_LONG).show();
         }
         video_uri = null;
 
-
+        //smr.setRetryPolicy(new DefaultRetryPolicy(5000,5,2));
         MyApplication.getInstance().addToRequestQueue(smr);
         forUpload.clear();
 

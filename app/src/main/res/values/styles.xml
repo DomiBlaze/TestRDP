@@ -32,16 +32,17 @@
 
     <style name="MyDialogTheme" parent="android:Theme.Material.Dialog">
         <item name="android:datePickerStyle">@style/MyDatePicker</item>
-        <item name="android:textSize">30dp</item>
+   
         <item name="android:calendarViewStyle">@style/MyCalendarView</item>
     </style>
 
     <style name="MyDatePicker" parent="android:Widget.Material.DatePicker">
-        <item name="android:textSize">30dp</item>
+
     </style>
 
     <style name="MyCalendarView" parent="android:Widget.Material.DatePicker">
         <item name="android:textSize">30dp</item>
+
     </style>
 
 

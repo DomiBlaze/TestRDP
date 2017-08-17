@@ -12,6 +12,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -528,10 +530,11 @@ public class WorkActivity extends AppCompatActivity {
         else {
 
             for (int i = 0; i < jsonArray.length(); i++) {
-                String id;
+
 
                 object = jsonArray.getJSONObject(i);
-                id = object.getString("id");
+                final String fio = object.getString("fio");
+                final Uri phone = Uri.parse("tel:" + object.getString("phone"));
                 //zakaz = object.getString("zakaz");
                // addr = "Empty";//object.getString("addr");
                 //brand = object.getString("brand");
@@ -543,7 +546,18 @@ public class WorkActivity extends AppCompatActivity {
                 LayoutInflater inflater = LayoutInflater.from(this);
                 RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.brigade_layout, null, false);
                 TextView fioTV = (TextView) layout.findViewById(R.id.fioTV);
-                fioTV.setText(id);
+                ImageView callB = (ImageView) layout.findViewById(R.id.call_icon);
+
+                callB.setClickable(true);
+                callB.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL, phone);
+                        startActivity(callIntent);
+                    }
+                });
+                fioTV.setText(fio);
 
 
                 tb.addView(layout,i);
@@ -636,7 +650,7 @@ public class WorkActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if (error instanceof NoConnectionError) {
+                if (true/*error instanceof NoConnectionError*/) {
                     Cache.Entry entry = WorkListActivity.requestQueue.getCache().get(url_req);
 
                     String myFormat = "HH:mm:ss";
@@ -709,7 +723,10 @@ public class WorkActivity extends AppCompatActivity {
         brandTV.setText(brand);
         zakaz_work = "S-" + zakaz + "/r-" + work;
         workTV.setText(zakaz_work);
-        addrTV.setText(addr);
+        SpannableString content = new SpannableString(addr);
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        addrTV.setText(content);
+
 
         Button goodB = (Button) findViewById(R.id.goodB);
         Button badB = (Button) findViewById(R.id.badB);

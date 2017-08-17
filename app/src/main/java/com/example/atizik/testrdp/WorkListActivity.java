@@ -110,8 +110,12 @@ public class WorkListActivity extends AppCompatActivity implements DatePickerDia
                 this, WorkListActivity.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         DatePicker datePicker = datePickerDialog.getDatePicker();
 
+        Calendar maxDate = Calendar.getInstance();
+        maxDate.set(Calendar.HOUR_OF_DAY, 23);
+        maxDate.set(Calendar.MINUTE, 59);
+        maxDate.set(Calendar.SECOND, 59);
         datePicker.setMinDate(calendar.getTimeInMillis() - 1000*60*60*24);
-        datePicker.setMaxDate(calendar.getTimeInMillis() + (1000*60*60*24)+10000);
+        datePicker.setMaxDate(maxDate.getTimeInMillis() + (1000*60*60*24));
         sendNetworkRequest(UrlForRequest("list","",sdf.format(calendar.getTime())),true);
 
 
